@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Khám Phá Sách Đỏ - Động Vật Không Xương Sống & San Hô</title>
+    
+    <meta property="og:title" content="Bộ Thẻ Khám Phá Sách Đỏ Nguy Cấp - Giúp bé phát triển tư duy" />
+    <meta property="og:description" content="Khám phá các loài động vật không xương sống và san hô quý hiếm" />
+    <meta property="og:image" content="https://i.pinimg.com/736x/c4/b9/87/c4b98763412f66959ce9d2c6b0a54b70.jpg" />
+    <meta property="og:url" content="https://mekeconnghe.github.io/sachdonguycap/loaidongvatkhongxuongsong/" />
+    <meta property="og:type" content="website" />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <style>
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in {
+            animation: fadeIn 0.3s ease-out forwards;
+        }
+        
+        .perspective-1000 {
+            perspective: 1000px;
+        }
+
+        .noselect {
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+
+        .progress-transition {
+            transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+    </style>
+</head>
+<body class="bg-amber-50 min-h-screen font-sans text-gray-800 flex flex-col items-center py-4 px-3 md:py-6 md:px-4">
+
+    <div class="text-center mb-4 w-full space-y-2">
+        <h1 class="text-xl md:text-3xl font-bold text-amber-800 flex items-center justify-center gap-2">
+            <i data-lucide="landmark" class="w-6 h-6 md:w-8 md:h-8"></i>
+            Sách Đỏ Nguy Cấp
+        </h1>
+        <div class="text-sm md:text-xl font-semibold text-amber-600 uppercase tracking-widest border-b-2 border-amber-200 inline-block pb-1">
+            Động Vật Không Xương Sống
+        </div>
+        
+        <div class="pt-1">
+            <a href="https://zalo.me/g/hirmwg741" target="_blank" class="inline-flex items-center gap-2 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white px-4 py-2 rounded-full text-xs md:text-sm font-bold shadow-md transition-all border-2 border-white ring-2 ring-pink-100">
+                <i data-lucide="users" class="w-4 h-4"></i>
+                Tham Gia Cộng đồng Mẹ Kể Con Nghe
+            </a>
+        </div>
+    </div>
+
+    <div class="w-full max-w-lg perspective-1000 group flex-grow flex flex-col justify-center mb-4">
+        <div 
+            id="flashcard"
+            class="relative w-full bg-white rounded-2xl shadow-xl overflow-hidden cursor-pointer transition-all duration-300 transform active:scale-[0.99] border-b-4 border-amber-200 noselect"
+            onclick="handleCardClick()"
+        >
+            <div class="absolute inset-0 flex flex-col h-full relative">
+                
+                <div id="card-header" class="flex-none flex flex-col w-full px-3 pt-2 mb-0 bg-white">
+                    <div class="flex justify-between items-center mb-1">
+                        <div class="flex items-center gap-1 text-gray-400 font-bold text-[10px]">
+                            <i data-lucide="map" class="w-3 h-3 text-orange-400"></i>
+                            <span id="counter-text">1/12</span>
+                        </div>
+                        <span id="side-indicator" class="px-2 py-0.5 rounded bg-amber-50 text-amber-600 font-bold text-[10px] uppercase">
+                            Hình ảnh
+                        </span>
+                    </div>
+                    <div class="w-full h-0.5 bg-gray-100 rounded-full overflow-hidden">
+                        <div id="progress-bar" class="h-full bg-orange-400 rounded-full progress-transition" style="width: 5%"></div>
+                    </div>
+                </div>
+
+                <div id="card-content" class="flex-grow flex flex-col items-center justify-center text-center w-full">
+                    </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="w-full max-w-lg flex gap-3 mb-4">
+        <button 
+            onclick="prevCard()"
+            class="flex-1 flex items-center justify-center gap-2 bg-white hover:bg-gray-50 active:bg-gray-100 text-gray-700 px-4 py-3 rounded-xl shadow-sm border border-gray-200 font-bold text-base md:text-lg transition-colors touch-manipulation"
+        >
+            <i data-lucide="chevron-left" class="w-5 h-5 md:w-6 md:h-6"></i> Trước
+        </button>
+        
+        <button 
+            id="btn-next"
+            onclick="nextCard()"
+            class="flex-1 flex items-center justify-center gap-2 bg-amber-600 hover:bg-amber-700 active:bg-amber-800 text-white px-4 py-3 rounded-xl shadow-md shadow-amber-200 font-bold text-base md:text-lg transition-colors touch-manipulation"
+        >
+            Sau <i data-lucide="chevron-right" class="w-5 h-5 md:w-6 md:h-6"></i>
+        </button>
+    </div>
+
+    <script>
+        const dataSources = [
+            {
+                id: 1, name: "Nhện dù Peacock", image: "nhen-du-peacock.jpg",
+                facts: [
+                    "<b>Tên khoa học:</b> <i>Poecilotheria hanumavilasumica</i>. Loài nhện có màu sắc sặc sỡ và hoa văn hình học tuyệt đẹp.",
+                    "<b>Phân bố:</b> Chỉ được tìm thấy tại một khu vực nhỏ trên đảo Rameshwaram của Ấn Độ.",
+                    "<b>Nguy cấp:</b> Môi trường sống của chúng là các đồn điền cây phi lao đang bị phá hủy nghiêm trọng.",
+                    "<b>Kích thước:</b> Là một loài nhện Tarantula lớn, sải chân có thể đạt tới 20cm.",
+                    "<b>Tập tính:</b> Chúng sống trên cây, làm tổ trong các hốc cây hoặc bẹ dừa khô."
+                ]
+            },
+            {
+                id: 2, name: "Nhện sói Desertas", image: "nhen-soi-desertas.jpg",
+                facts: [
+                    "<b>Tên khoa học:</b> <i>Hogna ingens</i>. Loài nhện sói khổng lồ chỉ có trên hòn đảo Deserta Grande của Bồ Đào Nha.",
+                    "<b>Kích thước:</b> Sải chân lên tới 12cm, là loài nhện lớn nhất thuộc họ Lycosidae.",
+                    "<b>Săn mồi:</b> Chúng không giăng tơ bẫy mồi mà chủ động chạy đuổi theo con mồi với tốc độ cao.",
+                    "<b>Độc đáo:</b> Màu sắc cơ thể giúp chúng ngụy trang hoàn hảo với nền đất đá núi lửa.",
+                    "<b>Bảo tồn:</b> Đang được nhân giống bảo tồn tại vườn thú Bristol (Anh) để tránh tuyệt chủng."
+                ]
+            },
+            {
+                id: 3, name: "Giun đất khổng lồ Gippsland", image: "giun-dat-gippsland.jpg",
+                facts: [
+                    "<b>Tên khoa học:</b> <i>Megascolides australis</i>. Một trong những loài giun đất lớn nhất thế giới, có thể dài tới 3 mét.",
+                    "<b>Âm thanh:</b> Khi chúng di chuyển trong hang ngập nước, người trên mặt đất có thể nghe thấy tiếng ục ục.",
+                    "<b>Màu sắc:</b> Phần đầu màu tím sẫm, thân mình màu xám hồng nhạt.",
+                    "<b>Tuổi thọ:</b> Loài này sống rất lâu so với các loài không xương sống khác, có thể lên tới 20 năm.",
+                    "<b>Sinh sản:</b> Chúng đẻ ra những kén trứng khổng lồ trông giống như hạt đậu đen lớn."
+                ]
+            },
+            {
+                id: 4, name: "Bọ cánh cứng chôn xác Mỹ", image: "bo-chon-xac-my.jpg",
+                facts: [
+                    "<b>Tên khoa học:</b> <i>Nicrophorus americanus</i>. Đóng vai trò quan trọng trong việc phân hủy xác động vật.",
+                    "<b>Kích thước:</b> Là loài bọ cánh cứng chôn xác lớn nhất ở Bắc Mỹ, dài tới 4cm.",
+                    "<b>Cha mẹ tốt:</b> Cả bố và mẹ đều cùng nhau chăm sóc và mớm thức ăn cho ấu trùng (rất hiếm ở côn trùng).",
+                    "<b>Khứu giác:</b> Có ăng-ten cực nhạy, có thể ngửi thấy mùi xác chết từ khoảng cách vài km.",
+                    "<b>Suy giảm:</b> Biến mất khỏi nhiều nơi do ô nhiễm ánh sáng và sử dụng thuốc trừ sâu."
+                ]
+            },
+            {
+                id: 5, name: "Bướm xanh El Segundo", image: "buom-xanh-el-segundo.jpg",
+                facts: [
+                    "<b>Tên khoa học:</b> <i>Euphilotes battoides allyni</i>. Chỉ sống ở các đụn cát ven biển tại California (Mỹ).",
+                    "<b>Nơi sống:</b> Toàn bộ vòng đời của chúng gắn liền với loài cây Kiều mạch biển.",
+                    "<b>Kích thước:</b> Là loài bướm rất nhỏ, sải cánh chỉ khoảng 2cm.",
+                    "<b>Cộng sinh:</b> Ấu trùng bướm tiết ra chất ngọt để dụ kiến đến bảo vệ chúng khỏi kẻ thù.",
+                    "<b>Phục hồi:</b> Các nỗ lực trồng lại cây bản địa tại sân bay LAX đã giúp chúng hồi sinh."
+                ]
+            },
+            {
+                id: 6, name: "Cuốn chiếu khổng lồ Seychelles", image: "cuon-chieu-seychelles.jpg",
+                facts: [
+                    "<b>Tên khoa học:</b> <i>Sechelleptus seychellarum</i>. Loài động vật ăn mùn bã quan trọng tại đảo Seychelles.",
+                    "<b>Kích thước:</b> Có thể dài tới 20cm và to như ngón tay cái người lớn.",
+                    "<b>Vai trò:</b> Chúng giống như 'nhà máy tái chế', biến lá cây rụng thành đất màu mỡ.",
+                    "<b>Phòng thủ:</b> Khi bị đe dọa, chúng cuộn tròn và tiết ra chất dịch gây kích ứng da.",
+                    "<b>Đe dọa:</b> Các loài xâm lấn như chuột và kiến đang đe dọa sự tồn vong của chúng."
+                ]
+            },
+            {
+                id: 7, name: "Bướm cướp biển Saint Francis", image: "buom-saint-francis.jpg",
+                facts: [
+                    "<b>Tên khoa học:</b> <i>Neonympha mitchellii francisci</i>. Rất nhạy cảm với sự thay đổi của nguồn nước.",
+                    "<b>Hiếm gặp:</b> Được coi là một trong những loài bướm hiếm nhất Bắc Mỹ, từng bị cho là đã tuyệt chủng.",
+                    "<b>Nơi sống:</b> Chỉ tìm thấy tại các đầm lầy cỏ nến trong căn cứ quân sự Fort Bragg.",
+                    "<b>Sinh thái:</b> Chúng cần các đám cháy tự nhiên để duy trì môi trường đầm lầy ưa thích.",
+                    "<b>Quan sát:</b> Bay thấp và chậm chạp qua các bụi cỏ rậm rạp nên rất khó nhìn thấy."
+                ]
+            },
+            {
+                id: 8, name: "San hô lỗ đỉnh", image: "san-ho-lo-dinh.jpg",
+                facts: [
+                    "<b>Tên khoa học:</b> <i>Acropora hemprichii</i>. Đang bị tẩy trắng hàng loạt do nước biển nóng lên toàn cầu.",
+                    "<b>Hình dáng:</b> Thuộc nhóm san hô sừng hươu, mọc thành các cành nhánh đan xen.",
+                    "<b>Tầm quan trọng:</b> Tạo nên cấu trúc rạn san hô phức tạp, là nhà của vô số loài cá.",
+                    "<b>Sinh sản:</b> Chúng đồng loạt phóng trứng và tinh trùng vào nước vào những đêm trăng tròn.",
+                    "<b>Phục hồi:</b> Các nhà khoa học đang nỗ lực 'trồng' lại loài này trong các vườn ươm dưới đáy biển."
+                ]
+            },
+            {
+                id: 9, name: "San hô sao cột", image: "san-ho-sao-cot.jpg",
+                facts: [
+                    "<b>Tên khoa học:</b> <i>Dendrogyra cylindrus</i>. Có hình dáng như những cột trụ hoặc tòa tháp dưới đáy biển.",
+                    "<b>Đặc biệt:</b> Không giống loài khác, chúng thường mở xúc tu để kiếm ăn cả vào ban ngày.",
+                    "<b>Tăng trưởng:</b> Phát triển rất chậm nhưng có thể tạo nên các cột đá vôi khổng lồ.",
+                    "<b>Bệnh dịch:</b> Đang bị đe dọa nghiêm trọng bởi 'Bệnh mất mô san hô đá' (SCTLD).",
+                    "<b>Nơi ở:</b> Cấu trúc cột của chúng tạo ra nơi ẩn nấp tuyệt vời cho cá và tôm hùm."
+                ]
+            },
+            {
+                id: 10, name: "San hô não gồ ghề", image: "san-ho-nao.jpg",
+                facts: [
+                    "<b>Tên khoa học:</b> <i>Diploria labyrinthiformis</i>. Có cấu tạo các rãnh sâu uốn lượn như mê cung não người.",
+                    "<b>Đặc điểm:</b> Các rãnh sâu giúp chúng thoát nước và trầm tích tốt hơn các loài san hô phẳng.",
+                    "<b>Phân bố:</b> Phổ biến ở vùng biển Caribbean và Đại Tây Dương nhiệt đới.",
+                    "<b>Sức sống:</b> Khá bền bỉ, chịu được sự thay đổi nhiệt độ tốt hơn san hô cành.",
+                    "<b>Tuổi thọ:</b> Các tảng san hô não lớn có thể đã sống hàng trăm năm dưới đáy biển."
+                ]
+            },
+            {
+                id: 11, name: "Ốc sên đất Bermuda", image: "oc-sen-bermuda.jpg",
+                facts: [
+                    "<b>Tên khoa học:</b> <i>Poecilozonites bermudensis</i>. Đã được hồi sinh từ một quần thể nhỏ tìm thấy trong ngõ hẻm.",
+                    "<b>Lịch sử:</b> Từng được coi là đã tuyệt chủng cho đến khi được phát hiện lại bất ngờ vào năm 2014.",
+                    "<b>Vỏ ốc:</b> Có các dải màu nâu đỏ và vàng rất đặc trưng, không nhầm lẫn với loài khác.",
+                    "<b>Kẻ thù:</b> Bị tiêu diệt bởi các loài ốc sên ăn thịt và giun dẹp xâm lấn đảo.",
+                    "<b>Hy vọng:</b> Hàng ngàn con ốc sên con đã được nhân giống và thả lại tự nhiên."
+                ]
+            },
+            {
+                id: 12, name: "Tôm hùm đất vũng lầy", image: "tom-hum-dat.jpg",
+                facts: [
+                    "<b>Tên khoa học:</b> <i>Procambarus echinatus</i>. Sống trong các hệ thống hang động nước ngọt.",
+                    "<b>Ngoại hình:</b> Nổi bật với các gai nhỏ trên vỏ và râu xúc giác rất dài.",
+                    "<b>Môi trường:</b> Chỉ sống được ở những nơi có nguồn nước sạch, không bị ô nhiễm.",
+                    "<b>Phân bố:</b> Là loài đặc hữu của vùng Florida và Alabama (Hoa Kỳ).",
+                    "<b>Tập tính:</b> Thường ẩn nấp dưới các tảng đá hoặc khúc gỗ mục dưới lòng suối."
+                ]
+            }
+        ];
+
+        // --- State ---
+        let currentIndex = 0;
+        let isFlipped = false;
+        let isEndScreen = false;
+
+        // --- DOM Elements ---
+        const contentEl = document.getElementById('card-content');
+        const cardHeader = document.getElementById('card-header');
+        const counterText = document.getElementById('counter-text');
+        const progressBar = document.getElementById('progress-bar');
+        const indicatorEl = document.getElementById('side-indicator');
+        const btnNext = document.getElementById('btn-next');
+
+        // --- Functions ---
+
+        function renderCard() {
+            if (isEndScreen) {
+                renderEndScreen();
+                return;
+            }
+
+            // Reset UI states
+            cardHeader.style.display = 'flex';
+            
+            const currentCard = dataSources[currentIndex];
+            
+            // Cập nhật Thanh tiến trình & Số đếm
+            const progressPercent = ((currentIndex + 1) / dataSources.length) * 100;
+            counterText.textContent = `${currentIndex + 1}/${dataSources.length}`;
+            progressBar.style.width = `${progressPercent}%`;
+
+            
+            if (isFlipped) {
+                indicatorEl.textContent = 'Thông tin';
+                indicatorEl.className = 'px-2 py-0.5 rounded bg-blue-100 text-blue-800 font-bold text-[10px] uppercase';
+            } else {
+                indicatorEl.textContent = 'Ảnh';
+                indicatorEl.className = 'px-2 py-0.5 rounded bg-amber-100 text-amber-800 font-bold text-[10px] uppercase';
+            }
+
+            // Nút Next logic
+            btnNext.innerHTML = currentIndex === dataSources.length - 1 ? 'Hoàn thành <i data-lucide="check" class="w-5 h-5"></i>' : 'Sau <i data-lucide="chevron-right" class="w-5 h-5"></i>';
+
+            let html = '';
+
+            if (!isFlipped) {
+                // MẶT TRƯỚC:
+                html += `<div class="animate-fade-in w-full flex flex-col">`;
+                
+                // PHẦN ẢNH:
+                html += `
+                    <div class="relative w-full bg-white">
+                         <img 
+                            src="${currentCard.image}" 
+                            alt="${currentCard.name}" 
+                            class="w-full h-auto block"
+                            onerror="this.src='https://placehold.co/600x400/orange/white?text=${encodeURIComponent(currentCard.name)}';"
+                         >
+                    </div>
+                `;
+                
+                // NÚT LẬT:
+                html += `
+                    <div class="w-full flex justify-center py-3 bg-white border-t border-gray-100">
+                        <div class="inline-flex items-center gap-1.5 bg-white border border-orange-200 text-orange-600 px-4 py-1.5 rounded-full text-xs font-bold shadow-sm animate-pulse">
+                            <i data-lucide="rotate-cw" class="w-3 h-3 text-orange-500"></i>
+                            Lật mặt sau để xem 5 sự thật thú vị
+                        </div>
+                    </div>
+                `;
+                html += `</div>`;
+            } else {
+                // MẶT SAU
+                html += `<div class="animate-fade-in w-full h-full flex flex-col px-4 pb-6 py-4">`;
+                
+                html += `<h3 class="flex-none text-xl font-bold text-amber-700 mb-3 uppercase border-b border-amber-200 pb-2 w-full text-center">${currentCard.name}</h3>`;
+                
+                html += `<div class="flex-grow flex flex-col gap-2 w-full">`;
+                
+                currentCard.facts.forEach((fact, index) => {
+                    html += `
+                        <div class="flex items-start gap-3 bg-amber-50 p-3 rounded-lg border border-amber-100 shadow-sm items-center">
+                            <span class="flex-shrink-0 bg-amber-500 text-white w-6 h-6 rounded-full flex items-center justify-center font-bold text-xs shadow-sm">${index + 1}</span>
+                            <span class="text-gray-700 text-sm leading-snug font-medium text-justify">${fact}</span>
+                        </div>
+                    `;
+                });
+                
+                html += `</div>`; // End List Container
+                html += `</div>`; // End Main Container
+            }
+
+            contentEl.innerHTML = html;
+            lucide.createIcons();
+        }
+
+        function renderEndScreen() {
+            cardHeader.style.display = 'none';
+            btnNext.innerHTML = 'Hết bài';
+
+            let html = `
+                <div class="animate-fade-in flex flex-col items-center justify-center h-full text-center space-y-6 px-4 py-8">
+                    
+                    <div class="bg-gradient-to-br from-yellow-100 to-amber-200 p-6 rounded-full shadow-lg shadow-yellow-200">
+                        <i data-lucide="crown" class="w-20 h-20 text-yellow-600 fill-yellow-600"></i>
+                    </div>
+
+                    <div class="px-2">
+                        <h2 class="text-2xl md:text-3xl font-bold text-amber-700 mb-3">Bé Giỏi Quá!</h2>
+                        <p class="text-gray-600 text-base md:text-lg leading-relaxed">
+                            Chúc mừng <b>"Bé"</b> đã hoàn thành hành trình khám phá ${dataSources.length} loài Động Vật Quý Hiếm!
+                        </p>
+                    </div>
+                    
+                    <a href="https://catalog.zalo.me/?cid=Cj7DJZwIc0rDhRz0DP6M2ZogmrT3w-GVCQNEIK2Gdc0fjSuv98Jh5G" 
+                       target="_blank"
+                       class="flex items-center gap-3 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white px-6 py-4 rounded-xl font-bold text-lg shadow-lg shadow-pink-200 transition-all hover:scale-105 transform border-2 border-white ring-2 ring-pink-100 mt-2">
+                        <i data-lucide="gift" class="w-6 h-6"></i>
+                        Xem tốt sản phẩm cho Mẹ & Bé 
+                    </a>
+                    
+                    <button 
+                        onclick="resetApp()"
+                        class="flex items-center gap-2 text-amber-600 hover:text-amber-800 font-semibold text-sm mt-4 bg-amber-50 px-5 py-2 rounded-full transition-colors border border-amber-100">
+                        <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
+                        Khám phá lại từ đầu
+                    </button>
+                </div>
+            `;
+            contentEl.innerHTML = html;
+            lucide.createIcons();
+        }
+
+        function handleCardClick() {
+            if (isEndScreen) return;
+            flipCard();
+        }
+
+        function flipCard() {
+            isFlipped = !isFlipped;
+            renderCard();
+        }
+
+        function nextCard() {
+            event.stopPropagation();
+            if (isEndScreen) return;
+
+            if (currentIndex < dataSources.length - 1) {
+                currentIndex++;
+                isFlipped = false;
+                renderCard();
+            } else {
+                isEndScreen = true;
+                isFlipped = false;
+                renderCard();
+            }
+        }
+
+        function prevCard() {
+            event.stopPropagation();
+            if (isEndScreen) {
+                isEndScreen = false;
+                currentIndex = dataSources.length - 1;
+                renderCard();
+                return;
+            }
+
+            if (currentIndex > 0) {
+                isFlipped = false;
+                currentIndex--;
+                renderCard();
+            }
+        }
+
+        function resetApp() {
+            event.stopPropagation();
+            currentIndex = 0;
+            isFlipped = false;
+            isEndScreen = false;
+            renderCard();
+        }
+
+        // --- Init ---
+        lucide.createIcons();
+        renderCard();
+
+    </script>
+</body>
+</html>
