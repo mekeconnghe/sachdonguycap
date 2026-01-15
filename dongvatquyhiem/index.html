@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Khám Phá Sách Đỏ - Động Vật Nguy Cấp</title>
+    
+    <meta property="og:title" content="Bộ Thẻ Khám Phá Sách Đỏ Nguy Cấp - Giúp bé phát triển tư duy" />
+    <meta property="og:description" content="Khám phá các loài động vật quý hiếm trên thế giới" />
+    <meta property="og:image" content="https://i.pinimg.com/736x/7d/8c/af/7d8caf0927f77944a05734f75c4b1156.jpg" />
+    <meta property="og:url" content="https://mekeconnghe.github.io/sachdonguycap/dongvatquyhiem/" />
+    <meta property="og:type" content="website" />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <style>
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in {
+            animation: fadeIn 0.3s ease-out forwards;
+        }
+        
+        .perspective-1000 {
+            perspective: 1000px;
+        }
+
+        .noselect {
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+
+        .progress-transition {
+            transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+    </style>
+</head>
+<body class="bg-amber-50 min-h-screen font-sans text-gray-800 flex flex-col items-center py-4 px-3 md:py-6 md:px-4">
+
+    <div class="text-center mb-4 w-full space-y-2">
+        <h1 class="text-xl md:text-3xl font-bold text-amber-800 flex items-center justify-center gap-2">
+            <i data-lucide="landmark" class="w-6 h-6 md:w-8 md:h-8"></i>
+            Khám Phá Thế Giới - Sách Đỏ Nguy Cấp
+        </h1>
+        <div class="text-sm md:text-xl font-semibold text-amber-600 uppercase tracking-widest border-b-2 border-amber-200 inline-block pb-1">
+            Các Loài Động Vật Nguy Cấp & Quý Hiếm
+        </div>
+        
+        <div class="pt-1">
+            <a href="https://zalo.me/g/hirmwg741" target="_blank" class="inline-flex items-center gap-2 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white px-4 py-2 rounded-full text-xs md:text-sm font-bold shadow-md transition-all border-2 border-white ring-2 ring-pink-100">
+                <i data-lucide="users" class="w-4 h-4"></i>
+                Tham Gia Cộng đồng Mẹ Kể Con Nghe
+            </a>
+        </div>
+    </div>
+
+    <div class="w-full max-w-lg perspective-1000 group flex-grow flex flex-col justify-center mb-4">
+        <div 
+            id="flashcard"
+            class="relative w-full bg-white rounded-2xl shadow-xl overflow-hidden cursor-pointer transition-all duration-300 transform active:scale-[0.99] border-b-4 border-amber-200 noselect"
+            onclick="handleCardClick()"
+        >
+            <div class="absolute inset-0 flex flex-col h-full relative">
+                
+                <div id="card-header" class="flex-none flex flex-col w-full px-3 pt-2 mb-0 bg-white">
+                    <div class="flex justify-between items-center mb-1">
+                        <div class="flex items-center gap-1 text-gray-400 font-bold text-[10px]">
+                            <i data-lucide="map" class="w-3 h-3 text-orange-400"></i>
+                            <span id="counter-text">1/13</span>
+                        </div>
+                        <span id="side-indicator" class="px-2 py-0.5 rounded bg-amber-50 text-amber-600 font-bold text-[10px] uppercase">
+                            Hình ảnh
+                        </span>
+                    </div>
+                    <div class="w-full h-0.5 bg-gray-100 rounded-full overflow-hidden">
+                        <div id="progress-bar" class="h-full bg-orange-400 rounded-full progress-transition" style="width: 5%"></div>
+                    </div>
+                </div>
+
+                <div id="card-content" class="flex-grow flex flex-col items-center justify-center text-center w-full">
+                    </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="w-full max-w-lg flex gap-3 mb-4">
+        <button 
+            onclick="prevCard()"
+            class="flex-1 flex items-center justify-center gap-2 bg-white hover:bg-gray-50 active:bg-gray-100 text-gray-700 px-4 py-3 rounded-xl shadow-sm border border-gray-200 font-bold text-base md:text-lg transition-colors touch-manipulation"
+        >
+            <i data-lucide="chevron-left" class="w-5 h-5 md:w-6 md:h-6"></i> Trước
+        </button>
+        
+        <button 
+            id="btn-next"
+            onclick="nextCard()"
+            class="flex-1 flex items-center justify-center gap-2 bg-amber-600 hover:bg-amber-700 active:bg-amber-800 text-white px-4 py-3 rounded-xl shadow-md shadow-amber-200 font-bold text-base md:text-lg transition-colors touch-manipulation"
+        >
+            Sau <i data-lucide="chevron-right" class="w-5 h-5 md:w-6 md:h-6"></i>
+        </button>
+    </div>
+
+    <script>
+        const dataSources = [
+            {
+                id: 1, name: "Linh dương Addax", image: "linh-duong-addax.webp",
+                facts: [
+                    "<b>Tên khoa học:</b> <i>Addax nasomaculatus</i>. Còn gọi là 'Linh dương sừng xoắn' do cặp sừng xoắn ốc tuyệt đẹp.",
+                    "<b>Thích nghi:</b> Chúng có bộ lông màu trắng vào mùa hè để phản chiếu ánh nắng sa mạc gay gắt.",
+                    "<b>Chịu khát:</b> Là bậc thầy chịu khát, chúng hầu như không cần uống nước mà hấp thụ từ cây cỏ.",
+                    "<b>Móng guốc:</b> Móng chân to bè giúp chúng đi lại dễ dàng trên cát lún mà không bị sụt.",
+                    "<b>Tình trạng:</b> Đã tuyệt chủng ở nhiều nơi, hiện chỉ còn khoảng vài trăm con trong tự nhiên."
+                ]
+            },
+            {
+                id: 2, name: "Khỉ đột Grauer", image: "khi-dot-grauer.webp",
+                facts: [
+                    "<b>Tên khoa học:</b> <i>Gorilla beringei graueri</i>. Đây là phân loài khỉ đột có kích thước lớn nhất thế giới.",
+                    "<b>Nơi sống:</b> Chỉ được tìm thấy tại các khu rừng rậm phía đông Cộng hòa Dân chủ Congo.",
+                    "<b>Thức ăn:</b> Dù to lớn nhưng chúng ăn chay, chủ yếu ăn lá cây, trái cây và thân cây.",
+                    "<b>Tính cách:</b> Trái với vẻ ngoài hầm hố, chúng khá hiền lành và sống theo gia đình.",
+                    "<b>Đe dọa:</b> Môi trường sống bị thu hẹp nghiêm trọng do khai thác khoáng sản và làm nông nghiệp."
+                ]
+            },
+            {
+                id: 3, name: "Hổ Mã Lai", image: "ho-ma-lai.webp",
+                facts: [
+                    "<b>Tên khoa học:</b> <i>Panthera tigris jacksoni</i>. Là biểu tượng quốc gia xuất hiện trên huy hiệu của Malaysia.",
+                    "<b>Kích thước:</b> Nhỏ hơn Hổ Bengal, con đực nặng khoảng 120kg, giúp chúng luồn lách trong rừng rậm.",
+                    "<b>Bơi lội:</b> Chúng là những vận động viên bơi lội cừ khôi, rất thích ngâm mình trong nước.",
+                    "<b>Lãnh thổ:</b> Sống đơn độc và đánh dấu lãnh thổ rất kỹ bằng cách cào vào thân cây.",
+                    "<b>Nguy cấp:</b> Chỉ còn chưa đến 200 cá thể trưởng thành ngoài tự nhiên do nạn săn trộm."
+                ]
+            },
+            {
+                id: 4, name: "Voi Sumatra", image: "voi-sumatra.webp",
+                facts: [
+                    "<b>Tên khoa học:</b> <i>Elephas maximus sumatranus</i>. Là phân loài nhỏ nhất trong các loài voi châu Á.",
+                    "<b>Đặc điểm:</b> Chúng có 5 móng ở chân trước và 4 móng ở chân sau, đôi tai nhỏ hơn voi châu Phi.",
+                    "<b>Thông minh:</b> Có trí nhớ tuyệt vời và đời sống tình cảm phong phú, biết thương tiếc đồng loại.",
+                    "<b>Vai trò:</b> Giúp phát tán hạt giống cây rừng khi di chuyển quảng đường dài kiếm ăn.",
+                    "<b>Mâu thuẫn:</b> Diện tích rừng bị biến thành đồn điền dầu cọ khiến chúng thường xung đột với con người."
+                ]
+            },
+            {
+                id: 5, name: "Voọc Cát Bà", image: "vooc-cat-ba.webp",
+                facts: [
+                    "<b>Tên khoa học:</b> <i>Trachypithecus poliocephalus</i>. Loài linh trưởng cực hiếm chỉ có tại đảo Cát Bà, Việt Nam.",
+                    "<b>Màu sắc:</b> Khi mới sinh con non có màu cam rực rỡ, lớn lên chuyển sang màu đen đầu vàng.",
+                    "<b>Nơi ngủ:</b> Chúng ngủ trên các vách đá cheo leo hướng ra biển để tránh kẻ thù.",
+                    "<b>Thức ăn:</b> Chủ yếu ăn lá cây, chồi non và hoa quả trên các dãy núi đá vôi.",
+                    "<b>Bảo tồn:</b> Từng giảm xuống chỉ còn vài chục con, nay đang được bảo vệ nghiêm ngặt để phục hồi."
+                ]
+            },
+            {
+                id: 6, name: "Voọc Mông trắng", image: "vooc-mong-trang.webp",
+                facts: [
+                    "<b>Tên khoa học:</b> <i>Trachypithecus delacouri</i>. Còn gọi là 'Voọc quần đùi trắng' do mảng lông trắng đặc biệt ở mông.",
+                    "<b>Đặc hữu:</b> Là loài chỉ có duy nhất tại Việt Nam, sống ở vùng núi đá vôi Vân Long, Ninh Bình.",
+                    "<b>Leo trèo:</b> Di chuyển cực nhanh nhẹn trên các mỏm đá tai mèo sắc nhọn.",
+                    "<b>Gia đình:</b> Sống thành đàn nhỏ do một con đực đầu đàn lãnh đạo và bảo vệ.",
+                    "<b>Biểu tượng:</b> Được chọn làm biểu tượng cho SEA Games 31 tổ chức tại Việt Nam (Sao La và Voọc). "
+                ]
+            },
+            {
+                id: 7, name: "Khỉ mũi hếch Bắc Bộ", image: "khi-mui-hech-bac-bo.webp",
+                facts: [
+                    "<b>Tên khoa học:</b> <i>Rhinopithecus avunculus</i>. Loài linh trưởng bí ẩn nhất và hiếm nhất thế giới.",
+                    "<b>Khuôn mặt:</b> Đặc trưng với chiếc mũi hếch ngược lên trời và đôi môi dày màu hồng.",
+                    "<b>Phân bố:</b> Chỉ tìm thấy tại một vài khu rừng hẻo lánh ở Hà Giang và Tuyên Quang.",
+                    "<b>Lông dày:</b> Bộ lông dày giúp chúng chịu được cái lạnh thấu xương của vùng núi cao phía Bắc.",
+                    "<b>Tình trạng:</b> Số lượng cực kỳ ít ỏi, nằm trong danh sách 25 loài linh trưởng nguy cấp nhất toàn cầu."
+                ]
+            },
+            {
+                id: 8, name: "Vượn đen má trắng", image: "vuon-den-ma-trang.webp",
+                facts: [
+                    "<b>Tên khoa học:</b> <i>Nomascus leucogenys</i>. Nổi tiếng với giọng hót vang vọng cả cánh rừng mỗi sáng.",
+                    "<b>Giới tính:</b> Con đực màu đen có má trắng, con cái màu vàng cam - khác biệt hoàn toàn nhau.",
+                    "<b>Di chuyển:</b> Dùng cánh tay dài đu chuyền (brachiation) qua các cành cây với tốc độ cao.",
+                    "<b>Chung thủy:</b> Sống theo chế độ một vợ một chồng và gắn bó với nhau suốt đời.",
+                    "<b>Nguy cơ:</b> Thường bị săn bắt trái phép để làm thú cảnh hoặc lấy xương nấu cao."
+                ]
+            },
+            {
+                id: 9, name: "Vượn Cao Vít", image: "vuon-cao-vit.webp",
+                facts: [
+                    "<b>Tên khoa học:</b> <i>Nomascus nasutus</i>. Từng bị coi là tuyệt chủng cho đến khi được tìm thấy lại năm 2002.",
+                    "<b>Tên gọi:</b> Tên 'Cao Vít' mô phỏng tiếng hót đặc trưng của loài vượn này.",
+                    "<b>Biên giới:</b> Sống tại khu rừng đá vôi nhỏ hẹp nằm giữa biên giới Việt Nam (Cao Bằng) và Trung Quốc.",
+                    "<b>Số lượng:</b> Cả thế giới chỉ còn khoảng 130 cá thể, là loài vượn hiếm thứ 2 thế giới.",
+                    "<b>Thức ăn:</b> Rất thích ăn các loại quả dại và lá non trên các ngọn cây cao."
+                ]
+            },
+            {
+                id: 10, name: "Sói bờm", image: "soi-bom.webp",
+                facts: [
+                    "<b>Tên khoa học:</b> <i>Chrysocyon brachyurus</i>. Trông giống sói nhưng thực ra không phải sói cũng chẳng phải cáo.",
+                    "<b>Đôi chân:</b> Có đôi chân dài miên man như đi cà kheo để nhìn qua những đám cỏ cao ở Nam Mỹ.",
+                    "<b>Cái bờm:</b> Có bờm lông đen dựng đứng trên gáy sẽ xù lên khi chúng cảm thấy bị đe dọa.",
+                    "<b>Ăn tạp:</b> Rất thích ăn một loại quả tên là 'Loberia' (Táo sói) bên cạnh việc ăn thịt.",
+                    "<b>Mùi hương:</b> Nước tiểu của chúng có mùi rất đặc trưng, thường được ví như mùi cần sa."
+                ]
+            },
+            {
+                id: 11, name: "Hải cẩu thầy tu Địa Trung Hải", image: "hai-cau-thay-tu.webp",
+                facts: [
+                    "<b>Tên khoa học:</b> <i>Monachus monachus</i>. Một trong những loài động vật chân vây hiếm nhất hành tinh.",
+                    "<b>Tên gọi:</b> Được gọi là 'thầy tu' vì lớp da cổ giống như áo choàng của các tu sĩ thời xưa.",
+                    "<b>Nơi ở:</b> Thích sống ở vùng nước ấm và sinh con trong các hang động ven biển kín đáo.",
+                    "<b>Nhút nhát:</b> Rất sợ người và nhạy cảm, chúng sẽ bỏ đi nếu bị con người làm phiền.",
+                    "<b>Nguy hiểm:</b> Thường bị mắc vào lưới đánh cá hoặc mất môi trường sống do du lịch biển."
+                ]
+            },
+            {
+                id: 12, name: "Linh dương Hirola", image: "linh-duong-hirola.webp",
+                facts: [
+                    "<b>Tên khoa học:</b> <i>Beatragus hunteri</i>. Là loài linh dương bị đe dọa nghiêm trọng nhất thế giới.",
+                    "<b>Bốn mắt:</b> Có tuyến lệ lớn dưới mắt nhìn như con mắt thứ 2, nên được gọi là 'Linh dương bốn mắt'.",
+                    "<b>Đeo kính:</b> Có một vệt lông trắng vắt ngang qua mắt trông như đang đeo kính.",
+                    "<b>Sống sót:</b> Chỉ còn tìm thấy ở một vùng nhỏ biên giới giữa Kenya và Somalia.",
+                    "<b>Dịch bệnh:</b> Dễ bị tổn thương bởi các dịch bệnh lây từ gia súc chăn thả của con người."
+                ]
+            },
+            {
+                id: 13, name: "Cá voi Bắc Đại Tây Dương", image: "ca-voi-bac-dai-tay-duong.webp",
+                facts: [
+                    "<b>Tên khoa học:</b> <i>Eubalaena glacialis</i>. Loài cá voi lớn hiền lành và di chuyển chậm chạp.",
+                    "<b>Đặc điểm:</b> Không có vây lưng, trên đầu có các mảng chai sần màu trắng đặc trưng.",
+                    "<b>Cái tên:</b> Tên tiếng Anh là 'Right Whale' vì thợ săn xưa coi đây là loài 'đúng' (dễ) để săn.",
+                    "<b>Tai nạn:</b> Thường xuyên bị va chạm với tàu thuyền lớn do thói quen bơi nổi trên mặt nước.",
+                    "<b>Mắc lưới:</b> Rất nhiều cá thể bị thương hoặc chết do mắc vào ngư cụ đánh cá trôi nổi."
+                ]
+            }
+        ];
+
+        // --- State ---
+        let currentIndex = 0;
+        let isFlipped = false;
+        let isEndScreen = false;
+
+        // --- DOM Elements ---
+        const contentEl = document.getElementById('card-content');
+        const cardHeader = document.getElementById('card-header');
+        const counterText = document.getElementById('counter-text');
+        const progressBar = document.getElementById('progress-bar');
+        const indicatorEl = document.getElementById('side-indicator');
+        const btnNext = document.getElementById('btn-next');
+
+        // --- Functions ---
+
+        function renderCard() {
+            if (isEndScreen) {
+                renderEndScreen();
+                return;
+            }
+
+            // Reset UI states
+            cardHeader.style.display = 'flex';
+            
+            const currentCard = dataSources[currentIndex];
+            
+            // Cập nhật Thanh tiến trình & Số đếm
+            const progressPercent = ((currentIndex + 1) / dataSources.length) * 100;
+            counterText.textContent = `${currentIndex + 1}/${dataSources.length}`;
+            progressBar.style.width = `${progressPercent}%`;
+
+            
+            if (isFlipped) {
+                indicatorEl.textContent = 'Thông tin';
+                indicatorEl.className = 'px-2 py-0.5 rounded bg-blue-100 text-blue-800 font-bold text-[10px] uppercase';
+            } else {
+                indicatorEl.textContent = 'Ảnh';
+                indicatorEl.className = 'px-2 py-0.5 rounded bg-amber-100 text-amber-800 font-bold text-[10px] uppercase';
+            }
+
+            // Nút Next logic
+            btnNext.innerHTML = currentIndex === dataSources.length - 1 ? 'Hoàn thành <i data-lucide="check" class="w-5 h-5"></i>' : 'Sau <i data-lucide="chevron-right" class="w-5 h-5"></i>';
+
+            let html = '';
+
+            if (!isFlipped) {
+                // MẶT TRƯỚC:
+                html += `<div class="animate-fade-in w-full flex flex-col">`;
+                
+                // PHẦN ẢNH:
+                html += `
+                    <div class="relative w-full bg-white">
+                         <img 
+                            src="${currentCard.image}" 
+                            alt="${currentCard.name}" 
+                            class="w-full h-auto block"
+                            onerror="this.src='https://placehold.co/600x400/orange/white?text=${encodeURIComponent(currentCard.name)}';"
+                         >
+                    </div>
+                `;
+                
+                // NÚT LẬT:
+                html += `
+                    <div class="w-full flex justify-center py-3 bg-white border-t border-gray-100">
+                        <div class="inline-flex items-center gap-1.5 bg-white border border-orange-200 text-orange-600 px-4 py-1.5 rounded-full text-xs font-bold shadow-sm animate-pulse">
+                            <i data-lucide="rotate-cw" class="w-3 h-3 text-orange-500"></i>
+                            Lật mặt sau để xem 5 sự thật thú vị
+                        </div>
+                    </div>
+                `;
+                html += `</div>`;
+            } else {
+                // MẶT SAU
+                html += `<div class="animate-fade-in w-full h-full flex flex-col px-4 pb-6 py-4">`;
+                
+                html += `<h3 class="flex-none text-xl font-bold text-amber-700 mb-3 uppercase border-b border-amber-200 pb-2 w-full text-center">${currentCard.name}</h3>`;
+                
+                html += `<div class="flex-grow flex flex-col gap-2 w-full">`;
+                
+                currentCard.facts.forEach((fact, index) => {
+                    html += `
+                        <div class="flex items-start gap-3 bg-amber-50 p-3 rounded-lg border border-amber-100 shadow-sm items-center">
+                            <span class="flex-shrink-0 bg-amber-500 text-white w-6 h-6 rounded-full flex items-center justify-center font-bold text-xs shadow-sm">${index + 1}</span>
+                            <span class="text-gray-700 text-sm leading-snug font-medium text-justify">${fact}</span>
+                        </div>
+                    `;
+                });
+                
+                html += `</div>`; // End List Container
+                html += `</div>`; // End Main Container
+            }
+
+            contentEl.innerHTML = html;
+            lucide.createIcons();
+        }
+
+        function renderEndScreen() {
+            cardHeader.style.display = 'none';
+            btnNext.innerHTML = 'Hết bài';
+
+            let html = `
+                <div class="animate-fade-in flex flex-col items-center justify-center h-full text-center space-y-6 px-4 py-8">
+                    
+                    <div class="bg-gradient-to-br from-yellow-100 to-amber-200 p-6 rounded-full shadow-lg shadow-yellow-200">
+                        <i data-lucide="crown" class="w-20 h-20 text-yellow-600 fill-yellow-600"></i>
+                    </div>
+
+                    <div class="px-2">
+                        <h2 class="text-2xl md:text-3xl font-bold text-amber-700 mb-3">Bé Giỏi Quá!</h2>
+                        <p class="text-gray-600 text-base md:text-lg leading-relaxed">
+                            Chúc mừng <b>"Bé"</b> đã hoàn thành hành trình khám phá ${dataSources.length} loài Động Vật Quý Hiếm!
+                        </p>
+                    </div>
+                    
+                    <a href="https://catalog.zalo.me/?cid=Cj7DJZwIc0rDhRz0DP6M2ZogmrT3w-GVCQNEIK2Gdc0fjSuv98Jh5G" 
+                       target="_blank"
+                       class="flex items-center gap-3 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white px-6 py-4 rounded-xl font-bold text-lg shadow-lg shadow-pink-200 transition-all hover:scale-105 transform border-2 border-white ring-2 ring-pink-100 mt-2">
+                        <i data-lucide="gift" class="w-6 h-6"></i>
+                        Xem tốt sản phẩm cho Mẹ & Bé 
+                    </a>
+                    
+                    <button 
+                        onclick="resetApp()"
+                        class="flex items-center gap-2 text-amber-600 hover:text-amber-800 font-semibold text-sm mt-4 bg-amber-50 px-5 py-2 rounded-full transition-colors border border-amber-100">
+                        <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
+                        Khám phá lại từ đầu
+                    </button>
+                </div>
+            `;
+            contentEl.innerHTML = html;
+            lucide.createIcons();
+        }
+
+        function handleCardClick() {
+            if (isEndScreen) return;
+            flipCard();
+        }
+
+        function flipCard() {
+            isFlipped = !isFlipped;
+            renderCard();
+        }
+
+        function nextCard() {
+            event.stopPropagation();
+            if (isEndScreen) return;
+
+            if (currentIndex < dataSources.length - 1) {
+                currentIndex++;
+                isFlipped = false;
+                renderCard();
+            } else {
+                isEndScreen = true;
+                isFlipped = false;
+                renderCard();
+            }
+        }
+
+        function prevCard() {
+            event.stopPropagation();
+            if (isEndScreen) {
+                isEndScreen = false;
+                currentIndex = dataSources.length - 1;
+                renderCard();
+                return;
+            }
+
+            if (currentIndex > 0) {
+                isFlipped = false;
+                currentIndex--;
+                renderCard();
+            }
+        }
+
+        function resetApp() {
+            event.stopPropagation();
+            currentIndex = 0;
+            isFlipped = false;
+            isEndScreen = false;
+            renderCard();
+        }
+
+        // --- Init ---
+        lucide.createIcons();
+        renderCard();
+
+    </script>
+</body>
+</html>
