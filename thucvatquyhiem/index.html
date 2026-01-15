@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Khám Phá Thực Vật Quý Hiếm</title>
+    
+    <meta property="og:title" content="Bộ Thẻ Khám Phá Sách Đỏ Nguy Cấp - Giúp bé phát triển tư duy, kích thích trí tưởng tượng" />
+    <meta property="og:description" content="Khám phá các loài thực vật quý hiếm trên thế giới" />
+    <meta property="og:image" content="https://i.pinimg.com/736x/f7/dc/da/f7dcda07322f127cbc07a1d408d8fd30.jpg" />
+    <meta property="og:url" content="https://mekeconnghe.github.io/sachdonguycap/thucvatquyhiem/" />
+    <meta property="og:type" content="website" />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <style>
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in {
+            animation: fadeIn 0.3s ease-out forwards;
+        }
+        
+        .perspective-1000 {
+            perspective: 1000px;
+        }
+
+        .noselect {
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+
+        .progress-transition {
+            transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+    </style>
+</head>
+<body class="bg-amber-50 min-h-screen font-sans text-gray-800 flex flex-col items-center py-4 px-3 md:py-6 md:px-4">
+
+    <div class="text-center mb-4 w-full space-y-2">
+        <h1 class="text-xl md:text-3xl font-bold text-amber-800 flex items-center justify-center gap-2">
+            <i data-lucide="leaf" class="w-6 h-6 md:w-8 md:h-8"></i>
+            Khám Phá Thế Giới - Sách Đỏ Nguy Cấp
+        </h1>
+        <div class="text-sm md:text-xl font-semibold text-amber-600 uppercase tracking-widest border-b-2 border-amber-200 inline-block pb-1">
+            Các Loài Thực Vật Quý Hiếm
+        </div>
+        
+        <div class="pt-1">
+            <a href="https://zalo.me/g/hirmwg741" target="_blank" class="inline-flex items-center gap-2 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white px-4 py-2 rounded-full text-xs md:text-sm font-bold shadow-md transition-all border-2 border-white ring-2 ring-pink-100">
+                <i data-lucide="users" class="w-4 h-4"></i>
+                Tham Gia Cộng đồng Mẹ Kể Con Nghe
+            </a>
+        </div>
+    </div>
+
+    <div class="w-full max-w-lg perspective-1000 group flex-grow flex flex-col justify-center mb-4">
+        <div 
+            id="flashcard"
+            class="relative w-full bg-white rounded-2xl shadow-xl overflow-hidden cursor-pointer transition-all duration-300 transform active:scale-[0.99] border-b-4 border-amber-200 noselect"
+            onclick="handleCardClick()"
+        >
+            <div class="absolute inset-0 flex flex-col h-full relative">
+                
+                <div id="card-header" class="flex-none flex flex-col w-full px-3 pt-2 mb-0 bg-white">
+                    <div class="flex justify-between items-center mb-1">
+                        <div class="flex items-center gap-1 text-gray-400 font-bold text-[10px]">
+                            <i data-lucide="map" class="w-3 h-3 text-orange-400"></i>
+                            <span id="counter-text">1/20</span>
+                        </div>
+                        <span id="side-indicator" class="px-2 py-0.5 rounded bg-amber-50 text-amber-600 font-bold text-[10px] uppercase">
+                            Hình ảnh
+                        </span>
+                    </div>
+                    <div class="w-full h-0.5 bg-gray-100 rounded-full overflow-hidden">
+                        <div id="progress-bar" class="h-full bg-orange-400 rounded-full progress-transition" style="width: 5%"></div>
+                    </div>
+                </div>
+
+                <div id="card-content" class="flex-grow flex flex-col items-center justify-center text-center w-full">
+                    </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="w-full max-w-lg flex gap-3 mb-4">
+        <button 
+            onclick="prevCard()"
+            class="flex-1 flex items-center justify-center gap-2 bg-white hover:bg-gray-50 active:bg-gray-100 text-gray-700 px-4 py-3 rounded-xl shadow-sm border border-gray-200 font-bold text-base md:text-lg transition-colors touch-manipulation"
+        >
+            <i data-lucide="chevron-left" class="w-5 h-5 md:w-6 md:h-6"></i> Trước
+        </button>
+        
+        <button 
+            id="btn-next"
+            onclick="nextCard()"
+            class="flex-1 flex items-center justify-center gap-2 bg-amber-600 hover:bg-amber-700 active:bg-amber-800 text-white px-4 py-3 rounded-xl shadow-md shadow-amber-200 font-bold text-base md:text-lg transition-colors touch-manipulation"
+        >
+            Sau <i data-lucide="chevron-right" class="w-5 h-5 md:w-6 md:h-6"></i>
+        </button>
+    </div>
+
+    <script>
+        const dataSources = [
+            {
+                id: 1, name: "Thông Wollemi", image: "thong-wollemi.webp",
+                facts: [
+                    "<b>Tên khoa học:</b> <i>Wollemia nobilis</i>. Được coi là một trong những loài thực vật hiếm nhất thế giới.",
+                    "<b>Lịch sử:</b> Là 'hóa thạch sống' vì đã tồn tại từ thời khủng long cách đây 200 triệu năm.",
+                    "<b>Khám phá:</b> Chỉ mới được phát hiện vào năm 1994 tại một hẻm núi hẻo lánh ở Úc.",
+                    "<b>Bảo mật:</b> Vị trí chính xác của các cây hoang dã được giữ bí mật tuyệt đối để bảo vệ chúng.",
+                    "<b>Đặc điểm:</b> Vỏ cây sần sùi kỳ lạ trông giống như sô-cô-la đang sôi sùng sục."
+                ]
+            },
+            {
+                id: 2, name: "Bách vàng Việt Nam", image: "bach-vang-viet-nam.webp",
+                facts: [
+                    "<b>Tên khoa học:</b> <i>Xanthocyparis vietnamensis</i>. Loài cây lá kim cực kỳ quý hiếm.",
+                    "<b>Nơi sống:</b> Chỉ tìm thấy trên các đỉnh núi đá vôi hiểm trở tại Hà Giang, Việt Nam.",
+                    "<b>Đặc điểm:</b> Gỗ có màu vàng đặc trưng và mùi thơm rất dễ chịu.",
+                    "<b>Sức sống:</b> Cây sinh trưởng rất chậm và chịu được điều kiện khắc nghiệt trên vách đá.",
+                    "<b>Bảo tồn:</b> Được xếp vào nhóm Cực kỳ nguy cấp (CR) trong Sách Đỏ thế giới."
+                ]
+            },
+            {
+                id: 3, name: "Lan hài Rothschild", image: "lan-hai-rothschild.webp",
+                facts: [
+                    "<b>Tên khoa học:</b> <i>Paphiopedilum rothschildianum</i>. Được mệnh danh là 'Vua của các loài lan'.",
+                    "<b>Giá trị:</b> Là một trong những loài hoa lan đắt nhất thế giới, giá hàng nghìn đô la.",
+                    "<b>Kiên nhẫn:</b> Phải mất tới 15 năm cây mới nở hoa lần đầu tiên.",
+                    "<b>Nơi sống:</b> Chỉ mọc duy nhất ở sườn núi Kinabalu, Malaysia ở độ cao xác định.",
+                    "<b>Hình dáng:</b> Cánh hoa dang rộng như đôi cánh chim đại bàng đang bay."
+                ]
+            },
+            {
+                id: 4, name: "Cây nắp ấm kẹp", image: "cay-nap-am-clipeata.webp",
+                facts: [
+                    "<b>Tên khoa học:</b> <i>Nepenthes clipeata</i>. Loài cây ăn thịt cực hiếm.",
+                    "<b>Nơi ở:</b> Chỉ mọc trên vách đá thẳng đứng của núi lửa Kelam ở Borneo.",
+                    "<b>Nguy cơ:</b> Đã bị khai thác gần như cạn kiệt bởi những người sưu tầm cây cảnh.",
+                    "<b>Săn mồi:</b> Dùng mật ngọt để dụ côn trùng rơi vào 'ấm' chứa dịch tiêu hóa.",
+                    "<b>Hiện trạng:</b> Trong tự nhiên chỉ còn lại vài cá thể bám trên vách đá không thể với tới."
+                ]
+            },
+            {
+                id: 5, name: "Gỗ Trắc", image: "go-trac.webp",
+                facts: [
+                    "<b>Tên khoa học:</b> <i>Dalbergia cochinchinensis</i>. Một loại gỗ quý nổi tiếng của Việt Nam.",
+                    "<b>Chất lượng:</b> Gỗ rất cứng, nặng, thớ mịn và không bao giờ bị mối mọt.",
+                    "<b>Màu sắc:</b> Khi cắt ra gỗ có màu đỏ đen sang trọng, dùng lâu càng bóng đẹp.",
+                    "<b>Vấn nạn:</b> Bị khai thác trái phép nghiêm trọng để làm đồ nội thất đắt tiền.",
+                    "<b>Phân bố:</b> Sống rải rác trong các khu rừng kín thường xanh ở Đông Dương."
+                ]
+            },
+            {
+                id: 6, name: "Trầm hương", image: "tram-huong.webp",
+                facts: [
+                    "<b>Tên khoa học:</b> <i>Aquilaria crassna</i>. Cây tạo ra loại gỗ thơm đắt hơn vàng.",
+                    "<b>Cơ chế:</b> Trầm hương thực chất là phần gỗ bị bệnh do cây tiết nhựa để chữa lành vết thương.",
+                    "<b>Mùi hương:</b> Được mệnh danh là 'Vua của các mùi hương', dùng trong tôn giáo và nước hoa.",
+                    "<b>Săn lùng:</b> Vì giá trị quá cao, cây dó bầu trong tự nhiên bị chặt phá không thương tiếc.",
+                    "<b>Tâm linh:</b> Người xưa tin rằng trầm hương có thể xua đuổi tà khí, mang lại may mắn."
+                ]
+            },
+            {
+                id: 7, name: "Cây Baobab Perrier", image: "baobab-perrier.webp",
+                facts: [
+                    "<b>Tên khoa học:</b> <i>Adansonia perrieri</i>. Loài hiếm nhất trong các loài Baobab.",
+                    "<b>Nơi sống:</b> Chỉ tìm thấy ở phía Bắc đảo Madagascar.",
+                    "<b>Hình dáng:</b> Thân cây phình to như cái chai khổng lồ để dự trữ nước trong mùa khô.",
+                    "<b>Nguy cấp:</b> Môi trường sống bị phá hủy để làm than củi và nương rẫy.",
+                    "<b>Tuổi thọ:</b> Có thể sống hàng trăm năm nhưng số lượng hiện tại còn rất ít."
+                ]
+            },
+            {
+                id: 8, name: "Hoa lan ma", image: "hoa-lan-ma.webp",
+                facts: [
+                    "<b>Tên khoa học:</b> <i>Dendrophylax lindenii</i>. Loài lan bí ẩn không có lá.",
+                    "<b>Ngụy trang:</b> Rễ bám chặt vào thân cây, khi hoa nở trông như lơ lửng giữa không trung.",
+                    "<b>Khó tính:</b> Cực kỳ khó trồng và nhân giống bên ngoài môi trường tự nhiên.",
+                    "<b>Thụ phấn:</b> Chỉ nhờ vào một loài bướm đêm khổng lồ có vòi rất dài.",
+                    "<b>Phim ảnh:</b> Sự quý hiếm của nó từng là chủ đề của bộ phim 'The Orchid Thief'."
+                ]
+            },
+            {
+                id: 9, name: "Sâm Ngọc Linh", image: "sam-ngoc-linh.webp",
+                facts: [
+                    "<b>Tên khoa học:</b> <i>Panax vietnamensis</i>. Quốc bảo của Việt Nam.",
+                    "<b>Giá trị:</b> Chứa hàm lượng saponin cao nhất thế giới, tốt hơn cả sâm Hàn Quốc.",
+                    "<b>Nơi sống:</b> Chỉ mọc dưới tán rừng già trên đỉnh núi Ngọc Linh mây mù bao phủ.",
+                    "<b>Bảo vệ:</b> Được coi là loại sâm tốt nhất thế giới, giá trị kinh tế cực kỳ cao.",
+                    "<b>Lịch sử:</b> Được người dân tộc Xê Đăng dùng làm thuốc giấu từ xa xưa."
+                ]
+            },
+            {
+                id: 10, name: "Cây Cẩm lai", image: "cay-cam-lai.webp",
+                facts: [
+                    "<b>Tên khoa học:</b> <i>Dalbergia oliveri</i>. Cây gỗ lớn, tán rộng và xanh mát.",
+                    "<b>Gỗ quý:</b> Vân gỗ rất đẹp, thớ mịn, chuyên dùng làm đồ thủ công mỹ nghệ cao cấp.",
+                    "<b>Tốc độ:</b> Cây lớn rất chậm, phải mất hàng chục năm mới khai thác được.",
+                    "<b>Đe dọa:</b> Nhu cầu cao từ thị trường khiến rừng Cẩm lai tự nhiên ngày càng vắng bóng.",
+                    "<b>Bảo tồn:</b> Việt Nam đang nỗ lực trồng mới và bảo vệ nguồn gen quý này."
+                ]
+            },
+            {
+                id: 11, name: "Cây Sưa đỏ", image: "cay-sua-do.webp",
+                facts: [
+                    "<b>Tên khoa học:</b> <i>Dalbergia tonkinensis</i>. Loài cây gây sốt vì giá trị gỗ.",
+                    "<b>Đặc biệt:</b> Gỗ sưa đỏ có mùi thơm nhẹ, vân gỗ 4 mặt (gỗ thường chỉ có 2 mặt).",
+                    "<b>Phong thủy:</b> Được giới nhà giàu săn lùng vì tin rằng gỗ sưa trừ tà, vượng khí.",
+                    "<b>Thực tế:</b> Từng bị chặt trộm ngay trên đường phố Hà Nội vì giá trị quá lớn.",
+                    "<b>Hoa:</b> Hoa sưa nở trắng trời vào tháng 3 tạo nên cảnh sắc rất đẹp."
+                ]
+            },
+            {
+                id: 12, name: "Cây cọ Tahina", image: "co-tahina.webp",
+                facts: [
+                    "<b>Tên khoa học:</b> <i>Tahina spectabilis</i>. Loài cọ khổng lồ ở Madagascar.",
+                    "<b>Kích thước:</b> Có thể cao tới 18m với lá hình quạt rộng 5m.",
+                    "<b>Bi kịch:</b> Cây sống khoảng 50 năm, ra hoa một lần duy nhất cực lớn rồi chết (monocarpic).",
+                    "<b>Phát hiện:</b> Mới được một gia đình đi dã ngoại phát hiện tình cờ vào năm 2007.",
+                    "<b>Số lượng:</b> Chỉ còn khoảng vài chục cây trưởng thành trong tự nhiên."
+                ]
+            },
+            {
+                id: 13, name: "Thông Parana", image: "thong-parana.webp",
+                facts: [
+                    "<b>Tên khoa học:</b> <i>Araucaria angustifolia</i>. Biểu tượng của miền nam Brazil.",
+                    "<b>Hình dáng:</b> Cây có tán xòe rộng trên đỉnh giống như một chiếc nến đài (candelabra).",
+                    "<b>Hạt:</b> Hạt của cây (pinhão) là thức ăn quan trọng cho động vật và con người.",
+                    "<b>Suy giảm:</b> Rừng thông này đã bị phá hủy 97% để lấy đất nông nghiệp.",
+                    "<b>Hóa thạch:</b> Là loài cây cổ đại, họ hàng với các loài thông từ thời tiền sử."
+                ]
+            },
+            {
+                id: 14, name: "Cây vạn tuế", image: "van-tue-latifrons.webp",
+                facts: [
+                    "<b>Tên khoa học:</b> <i>Encephalartos latifrons</i>. Loài vạn tuế hiếm nhất Nam Phi.",
+                    "<b>Tình trạng:</b> Gần như tuyệt chủng trong tự nhiên, chỉ còn vài cá thể rải rác.",
+                    "<b>Tăng trưởng:</b> Lớn cực kỳ chậm và rất khó sinh sản tự nhiên.",
+                    "<b>Cấu tạo:</b> Lá dày, cứng và cong vút, trông như một tác phẩm điêu khắc.",
+                    "<b>Nguy cơ:</b> Bị săn trộm để bán cho các bộ sưu tập thực vật tư nhân."
+                ]
+            },
+            {
+                id: 15, name: "Hoa súng nhiệt đới", image: "hoa-sung-nhiet-doi.webp",
+                facts: [
+                    "<b>Tên khoa học:</b> <i>Nymphaea thermarum</i>. Loài hoa súng nhỏ nhất thế giới.",
+                    "<b>Kích thước:</b> Lá chỉ nhỏ bằng móng tay cái (khoảng 1cm).",
+                    "<b>Tuyệt chủng:</b> Đã tuyệt chủng ngoài tự nhiên do suối nước nóng nơi nó sống bị khô cạn.",
+                    "<b>Cứu vãn:</b> Được các nhà khoa học cứu sống và nhân giống thành công tại vườn thực vật Kew.",
+                    "<b>Đặc tính:</b> Khác với súng thường, nó mọc trong bùn ẩm chứ không cần ngập nước sâu."
+                ]
+            },
+            {
+                id: 16, name: "Cây Bách Đài Loan", image: "bach-dai-loan.webp",
+                facts: [
+                    "<b>Tên khoa học:</b> <i>Taiwania cryptomerioides</i>. Một trong những loài cây lớn nhất châu Á.",
+                    "<b>Tuổi thọ:</b> Có thể sống tới 2000 năm tuổi.",
+                    "<b>Kích thước:</b> Cao tới 70-80m, to lớn sừng sững giữa rừng già.",
+                    "<b>Gỗ:</b> Gỗ thơm, bền, chịu được mối mọt nên bị khai thác mạnh trong quá khứ.",
+                    "<b>Phân bố:</b> Ngoài Đài Loan, nó cũng được tìm thấy rải rác ở biên giới Việt - Trung."
+                ]
+            },
+            {
+                id: 17, name: "Cây Mộc lan lớn", image: "moc-lan-lon.webp",
+                facts: [
+                    "<b>Tên khoa học:</b> <i>Magnolia grandis</i>. Loài cây gỗ có hoa rất đẹp.",
+                    "<b>Phân bố:</b> Sống ở vùng núi đá vôi phía Bắc Việt Nam và Tây Nam Trung Quốc.",
+                    "<b>Gỗ:</b> Gỗ tốt, không bị mối mọt nên thường bị chặt làm nhà cửa, đồ đạc.",
+                    "<b>Canh tác:</b> Do phá rừng làm nương rẫy, môi trường sống của chúng bị thu hẹp mạnh.",
+                    "<b>Hoa:</b> Hoa to, thơm ngát, có giá trị làm cảnh rất cao."
+                ]
+            },
+            {
+                id: 18, name: "Cây Sồi Hinckley", image: "soi-hinckley.webp",
+                facts: [
+                    "<b>Tên khoa học:</b> <i>Quercus hinckleyi</i>. Một loài sồi lùn kỳ lạ.",
+                    "<b>Môi trường:</b> Sống ở vùng sa mạc khô cằn Texas (Mỹ), khác hẳn các loài sồi ôn đới.",
+                    "<b>Hình dáng:</b> Mọc thành bụi thấp, lá có gai nhọn giống lá nhựa ruồi.",
+                    "<b>Thích nghi:</b> Đã tồn tại từ kỷ Băng hà khi khí hậu còn ẩm ướt hơn bây giờ.",
+                    "<b>Số lượng:</b> Đang suy giảm do biến đổi khí hậu ngày càng khô hạn."
+                ]
+            },
+            {
+                id: 19, name: "Cây Sao mạng", image: "sao-mang.webp",
+                facts: [
+                    "<b>Tên khoa học:</b> <i>Hopea cordata</i>. Loài cây đặc hữu cực hẹp của Việt Nam.",
+                    "<b>Duy nhất:</b> Chỉ tìm thấy duy nhất ở vùng Cà Ná, tỉnh Ninh Thuận.",
+                    "<b>Sinh thái:</b> Mọc trên các sườn núi đá khô hạn ven biển.",
+                    "<b>Nguy cơ:</b> Số lượng cá thể cực ít, đứng trước nguy cơ tuyệt chủng rất cao.",
+                    "<b>Giá trị:</b> Có ý nghĩa quan trọng trong việc nghiên cứu hệ thực vật ven biển."
+                ]
+            },
+            {
+                id: 20, name: "Cây Trắc dây", image: "trac-day.webp",
+                facts: [
+                    "<b>Tên khoa học:</b> <i>Dalbergia rimosa</i>. Loài cây bụi leo trườn.",
+                    "<b>Đặc điểm:</b> Dù là dây leo nhưng thân có thể to và cho gỗ lõi rất quý.",
+                    "<b>Sử dụng:</b> Được dùng để đóng đồ nội thất nhỏ, trạm khảm tinh xảo.",
+                    "<b>Phân bố:</b> Mọc trong các khu rừng thưa, rừng tre nứa ở Việt Nam.",
+                    "<b>Tình trạng:</b> Đang bị khai thác cạn kiệt do giá trị kinh tế tăng cao."
+                ]
+            }
+        ];
+
+        // --- State ---
+        let currentIndex = 0;
+        let isFlipped = false;
+        let isEndScreen = false;
+
+        // --- DOM Elements ---
+        const contentEl = document.getElementById('card-content');
+        const cardHeader = document.getElementById('card-header');
+        const counterText = document.getElementById('counter-text');
+        const progressBar = document.getElementById('progress-bar');
+        const indicatorEl = document.getElementById('side-indicator');
+        const btnNext = document.getElementById('btn-next');
+
+        // --- Functions ---
+
+        function renderCard() {
+            if (isEndScreen) {
+                renderEndScreen();
+                return;
+            }
+
+            // Reset UI states
+            cardHeader.style.display = 'flex';
+            
+            const currentCard = dataSources[currentIndex];
+            
+            // Cập nhật Thanh tiến trình & Số đếm
+            const progressPercent = ((currentIndex + 1) / dataSources.length) * 100;
+            counterText.textContent = `${currentIndex + 1}/${dataSources.length}`;
+            progressBar.style.width = `${progressPercent}%`;
+
+            
+            if (isFlipped) {
+                indicatorEl.textContent = 'Thông tin';
+                indicatorEl.className = 'px-2 py-0.5 rounded bg-blue-100 text-blue-800 font-bold text-[10px] uppercase';
+            } else {
+                indicatorEl.textContent = 'Ảnh';
+                indicatorEl.className = 'px-2 py-0.5 rounded bg-amber-100 text-amber-800 font-bold text-[10px] uppercase';
+            }
+
+            // Nút Next logic
+            btnNext.innerHTML = currentIndex === dataSources.length - 1 ? 'Hoàn thành <i data-lucide="check" class="w-5 h-5"></i>' : 'Sau <i data-lucide="chevron-right" class="w-5 h-5"></i>';
+
+            let html = '';
+
+            if (!isFlipped) {
+                // MẶT TRƯỚC:
+                html += `<div class="animate-fade-in w-full flex flex-col">`;
+                
+                // PHẦN ẢNH:
+                html += `
+                    <div class="relative w-full bg-white">
+                         <img 
+                            src="${currentCard.image}" 
+                            alt="${currentCard.name}" 
+                            class="w-full h-auto block"
+                            onerror="this.src='https://placehold.co/600x400/green/white?text=${encodeURIComponent(currentCard.name)}';"
+                         >
+                    </div>
+                `;
+                
+                // NÚT LẬT:
+                html += `
+                    <div class="w-full flex justify-center py-3 bg-white border-t border-gray-100">
+                        <div class="inline-flex items-center gap-1.5 bg-white border border-orange-200 text-orange-600 px-4 py-1.5 rounded-full text-xs font-bold shadow-sm animate-pulse">
+                            <i data-lucide="rotate-cw" class="w-3 h-3 text-orange-500"></i>
+                            Lật mặt sau để xem 5 sự thật thú vị
+                        </div>
+                    </div>
+                `;
+                html += `</div>`;
+            } else {
+                // MẶT SAU
+                html += `<div class="animate-fade-in w-full h-full flex flex-col px-4 pb-6 py-4">`;
+                
+                html += `<h3 class="flex-none text-xl font-bold text-amber-700 mb-3 uppercase border-b border-amber-200 pb-2 w-full text-center">${currentCard.name}</h3>`;
+                
+                html += `<div class="flex-grow flex flex-col gap-2 w-full">`;
+                
+                currentCard.facts.forEach((fact, index) => {
+                    html += `
+                        <div class="flex items-start gap-3 bg-amber-50 p-3 rounded-lg border border-amber-100 shadow-sm items-center">
+                            <span class="flex-shrink-0 bg-amber-500 text-white w-6 h-6 rounded-full flex items-center justify-center font-bold text-xs shadow-sm">${index + 1}</span>
+                            <span class="text-gray-700 text-sm leading-snug font-medium text-justify">${fact}</span>
+                        </div>
+                    `;
+                });
+                
+                html += `</div>`; // End List Container
+                html += `</div>`; // End Main Container
+            }
+
+            contentEl.innerHTML = html;
+            lucide.createIcons();
+        }
+
+        function renderEndScreen() {
+            cardHeader.style.display = 'none';
+            btnNext.innerHTML = 'Hết bài';
+
+            // ĐÃ SỬA PHẦN NÀY ĐỂ PHÙ HỢP VỚI CHỦ ĐỀ THỰC VẬT
+            let html = `
+                <div class="animate-fade-in flex flex-col items-center justify-center h-full text-center space-y-6 px-4 py-8">
+                    
+                    <div class="bg-gradient-to-br from-yellow-100 to-amber-200 p-6 rounded-full shadow-lg shadow-yellow-200">
+                        <i data-lucide="crown" class="w-20 h-20 text-yellow-600 fill-yellow-600"></i>
+                    </div>
+
+                    <div class="px-2">
+                        <h2 class="text-2xl md:text-3xl font-bold text-amber-700 mb-3">Bé Giỏi Quá!</h2>
+                        <p class="text-gray-600 text-base md:text-lg leading-relaxed">
+                            Chúc mừng <b>"Bé"</b> đã hoàn thành hành trình khám phá ${dataSources.length} loài Thực Vật quý hiếm trên thế giới!
+                        </p>
+                    </div>
+                    
+                    <a href="https://catalog.zalo.me/?cid=Cj7DJZwIc0rDhRz0DP6M2ZogmrT3w-GVCQNEIK2Gdc0fjSuv98Jh5G" 
+                       target="_blank"
+                       class="flex items-center gap-3 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white px-6 py-4 rounded-xl font-bold text-lg shadow-lg shadow-pink-200 transition-all hover:scale-105 transform border-2 border-white ring-2 ring-pink-100 mt-2">
+                        <i data-lucide="gift" class="w-6 h-6"></i>
+                        Xem tốt sản phẩm cho Mẹ & Bé 
+                    </a>
+                    
+                    <button 
+                        onclick="resetApp()"
+                        class="flex items-center gap-2 text-amber-600 hover:text-amber-800 font-semibold text-sm mt-4 bg-amber-50 px-5 py-2 rounded-full transition-colors border border-amber-100">
+                        <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
+                        Khám phá lại từ đầu
+                    </button>
+                </div>
+            `;
+            contentEl.innerHTML = html;
+            lucide.createIcons();
+        }
+
+        function handleCardClick() {
+            if (isEndScreen) return;
+            flipCard();
+        }
+
+        function flipCard() {
+            isFlipped = !isFlipped;
+            renderCard();
+        }
+
+        function nextCard() {
+            event.stopPropagation();
+            if (isEndScreen) return;
+
+            if (currentIndex < dataSources.length - 1) {
+                currentIndex++;
+                isFlipped = false;
+                renderCard();
+            } else {
+                isEndScreen = true;
+                isFlipped = false;
+                renderCard();
+            }
+        }
+
+        function prevCard() {
+            event.stopPropagation();
+            if (isEndScreen) {
+                isEndScreen = false;
+                currentIndex = dataSources.length - 1;
+                renderCard();
+                return;
+            }
+
+            if (currentIndex > 0) {
+                isFlipped = false;
+                currentIndex--;
+                renderCard();
+            }
+        }
+
+        function resetApp() {
+            event.stopPropagation();
+            currentIndex = 0;
+            isFlipped = false;
+            isEndScreen = false;
+            renderCard();
+        }
+
+        // --- Init ---
+        lucide.createIcons();
+        renderCard();
+
+    </script>
+</body>
+</html>
